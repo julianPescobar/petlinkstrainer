@@ -1,2 +1,2 @@
-# petlinkstrainer
-An offline single player training game for my favourite casual game ever.
+# Match-Game-Using-Javascript
+Demo Link: https://lipaksahu.github.io/match-game.html

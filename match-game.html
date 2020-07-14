@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+	<meta 
+	name='viewport' 
+	content='width=device-width, initial-scale=0.8, maximum-scale=1.0, user-scalable=0' 
+/>
+<head>
+	<title>Match Game :: Javascript</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<style>
+		*{
+			box-sizing: border-box;
+		}
+		
+		body{
+			background: rgb(77,119,133);
+background: radial-gradient(circle, rgba(77,119,133,1) 61%, rgba(10,40,46,1) 100%);
+text-shadow: 2px 2px 2px rgba(206,89,55,0);
+		}
+
+		.place{
+			width: 350px;
+			height: 500;
+			display: table;
+			margin: 0 auto;
+			-webkit-box-shadow: 5px 5px 30px 3px #000000; 
+box-shadow: 5px 5px 30px 3px #000000;
+		}
+
+		.place li{
+			width: 50px;
+			list-style: none;
+			height: 52px;
+			float: left;
+			background: rgb(26, 34, 26);
+			border: 1px solid #333;
+			border-radius: 1px;
+			border-spacing: 4px;
+		}
+
+		.place li span{
+		    
+		    font-size: 0px;
+		    border-spacing: 1px;
+		    display: block;
+		    
+		}
+
+		.match, .not-match{
+			width: 200px;
+			margin: 0 auto;
+			background: tomato;
+			color: rgb(0, 0, 0);
+			text-align: center;
+			font-size: 17px;
+			display: none;
+			padding: 5px 0;
+		}
+
+		.not-match{
+			background: red;
+		}
+
+		.score-box{
+			font-family: Arial, Helvetica, sans-serif;
+			width: 100%;
+			height: 100px;
+			margin: 0px auto 0;
+			text-align: center;
+			
+		}
+		.celltext{
+			font-size: 1px;
+		}
+		.animate {
+			
+			transform: scale(1.1);
+			
+		}
+
+		.animateSpan{
+			
+			transform:scale(1.1);
+			
+		}
+		.frm {
+			
+			-webkit-box-shadow: -10px 0px 13px -7px #000000, 10px 0px 13px -7px #000000, 5px 5px 15px 5px rgba(0,0,0,0); 
+box-shadow: -10px 0px 13px -7px #000000, 10px 0px 13px -7px #000000, 5px 5px 15px 5px rgba(0,0,0,0);
+			background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0, 0.4); /* Black w/opacity/see-through */
+  color: white;
+  font-weight: bold;
+  border: 1px solid #f1f1f1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 80%;
+  padding: 20px;
+  text-align: center;
+  
+  font-family:Arial, Helvetica, sans-serif;
+ font-size: 20px;
+  display: none;
+  color: rgba(0,0,0,0.6);
+background: #629552;
+text-shadow: 2px 8px 6px rgba(0,0,0,0.2), 0px -5px 35px rgba(255,255,255,0.3);
+   justify-content:center;
+   align-items:center;
+   height:100vh;
+  text-align: center;
+}
+
+	</style>
+</head>
+<body>
+	<form class="frm" id="form1">
+		<h1 >Pet Links Trainer</h1> <br>
+		<h3>no bombas, no reorden</h3>
+		<h4 >by: Joker</h4><br>
+		<b >Tiempo: </b> <input  type="number" style="width:12%;height:8%;" id="segundos" name="segundos"  value=20> <b>segs</b>
+		
+		<br><br>
+		
+		<button class="frmtxt" type="button" style="width:50%;height:10%;border-radius: 10px;" id="submit">Empezar</button>
+	</form>
+
+	  <div id="game">
+		<div class="score-box">Tiempo: <span id="time">time</span>
+			
+		</div>
+		<div class="place" id="place">
+		</div>
+
+		<div class="match">Matched !! +2</div>
+		<div class="not-match">Oops !! -1</div>
+	  </div>
+<script>
+
+function shuffle(array) {
+  array.sort(() => Math.random() - 0.5);
+}
+
+
+	function generatePets(){
+//creamos los pets
+
+	ceros = 0
+	unos = 0
+	dos = 0
+	tres = 0
+	cuatros = 0
+	cincos = 0
+var arr = []
+//generamos 35 pares de pets (70)
+for(var i = 0; i <35;i++)
+{
+	var number =Math.floor(Math.random()*6) 
+arr.push(number )
+arr.push(number)
+}
+//mezclamos al azar
+shuffle(arr);
+
+
+var x = arr.sort(function(a,b){
+return Math.floor(Math.random() * arr.length);
+});
+
+for(var i = 0; i < x.length; i++){
+var linew = "<li id='l"+ i +"''>" + "<span id='"+ i +"' class='celltext' ><img src='"+x[i]+".jpg' width='49px' height='49px' ></img>" +x[i]+ "</span></li>";
+$(".place").append(linew);
+}
+
+	}
+
+	generatePets();
+	
+//console.log(x);
+var links = 0
+var guess1 = "";
+var guess2 = "";
+var count = 0;
+var score = parseInt($(".score").text());
+
+function startTimer(duration, display) {
+    var timer = duration, minutes, seconds;
+    setInterval(function () {
+        minutes = parseInt(timer / 60, 10);
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = minutes + ":" + seconds;
+
+        if (--timer < 0) {
+            timer = duration;
+        }
+		if(seconds == 0 && minutes == 0){
+		
+		
+		location.reload();	
+	}
+    }, 1000);
+	
+}
+
+
+window.onload = function () {
+	$("#form1").toggle();
+	$("#game").hide();
+
+
+};
+
+$("li").find("span")
+
+$("#submit").click(function(){
+	var tiempoelegido = $("#segundos").attr('value');
+	if(tiempoelegido > 1 && tiempoelegido < 61)
+	{$("#form1").hide();
+	$("#game").show();
+	var fiveMinutes = $("#segundos").attr("value"),
+        display = document.querySelector('#time');
+   startTimer(fiveMinutes, display);}
+   else
+   {alert("el tiempo no debe ser menor a 1 o mayor a 60 segundos, en 1 minuto lo resolves rapido.")}
+});
+
+$("li").click(function() {
+  	if ( count < 2 ) {
+    	count++;
+    	//$(this).find("span").show();
+    	
+
+	    // First guess
+	    if (count === 1 ) { 
+	      	guess1 = $(this).find("span"); 
+			  //console.log(guess1.attr('id'));
+			  $(guess1).addClass('animate');
+			  $(guess1).find("span").addClass('animateSpan');
+			  //console.log($("#l"+guess1.attr("id")).css("background"));
+	    }   
+    
+	    // Second guess
+	    if(count === 2) { 
+
+	    	// Match Case
+			  guess2 = $(this).find("span"); 
+			  $(guess2).addClass('animate');
+			  $(guess2).find("span").addClass('animateSpan');
+			
+	   		
+			if (guess1.attr("id") != guess2.attr("id") && guess1.text() === guess2.text()){ 
+			//si ya los linkeamos no tenemos que volver a reconocerlos como linkeados nuevamente
+				if($("#l"+guess1.attr("id")).css("background-color") != "rgb(51, 51, 51)" && $("#l"+guess2.attr("id")).css("background-color") != "rgb(51,51,51)")
+				{links +=2;}
+				//aca linkeamos (escondemos los spans)
+				$("#l"+guess1.attr("id")).find("span").hide();
+				$("#l"+guess1.attr("id")).css("background", "#333");
+				$("#l"+guess2.attr("id")).find("span").hide();
+				$("#l"+guess2.attr("id")).css("background", "#333");
+				//setTimeout(function() {
+					
+					//si linkeamos 35 pets, ganamos. Medimos el tiempo que nos llevó
+					if(links == 70)
+					{
+						var tiemporestante = $("#segundos").attr('value'); 
+						var actual = $("#time").text().substr(3,2);
+						var tiemporeal = parseInt(tiemporestante)  - parseInt(actual);
+						//console.log(tiemporestante,actual,tiemporeal);
+						alert('Ganaste! Tardaste ' + tiemporeal + ' segs.');
+						location.reload();
+					}
+				
+			} 
+			// Not Matched 
+			else { 
+				$(guess1).removeClass('animate');
+			  $(guess1).find("span").removeClass('animateSpan');
+			  $(guess2).removeClass('animate');
+    		  $(guess2).find("span").removeClass('animateSpan');
+			
+			}
+			count = 0; 
+			
+				
+	    }
+  	}
+});
+
+</script>
+
+</body>
+</html>
