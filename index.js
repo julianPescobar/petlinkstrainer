@@ -1,4 +1,4 @@
- express = require('express');
+var express = require('express');
 var app = express();
 var path = require('path');
 
@@ -10,5 +10,5 @@ app.get('/', function(req, res) {
     app.use(express.static(path.join(__dirname + '/')));
     res.sendFile(path.join(__dirname + '/match-game.html'));
 });
-console.log("app listening on 8080");
-app.listen(8080);
+console.log("app listening on 80");
+app.listen(80);
