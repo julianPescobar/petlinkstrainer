@@ -120,6 +120,29 @@
 			height: 100vh;
 			text-align: center;
 		}
+
+
+		input[type=range] {
+  -webkit-appearance: none;
+  background-color: #0099FF;
+  height: 4px;
+  width: 300px;
+  border: none;
+  border-radius: 4px;
+}
+ input[type="range"]::-webkit-slider-thumb {
+ -webkit-appearance: none;
+ background-color: #0099FF;
+ border: none;
+ height: 30px;
+ width: 30px;
+ border-radius: 50%;
+ opacity: 0.8;
+}
+
+input[type=range]:focus { outline: none; }
+
+input[type=range]:hover { background: #B2E0FF; }
 	</style>
 </head>
 
@@ -128,11 +151,14 @@
 		<h1>Pet Links Trainer</h1> <br>
 		<h3>no bombas, no reorden</h3>
 		<h4>by: Joker</h4><br>
-		<b>Tiempo: </b> <input type="number" style="width:12%;height:8%;" id="segundos" name="segundos" value=20>
-		<b>segs</b>
-
-		<br><br>
-
+		<div class="range-slider">
+		
+		<b>tiempo</b>
+			<input id="tiempox" class="input-range" type="range" value="20" min="1" max="59">
+			<span class="range-value">20</span> <b>segs</b>
+		  </div>
+		<br><br><br><br>
+		
 		<button class="frmtxt" type="button" style="width:50%;height:10%;border-radius: 10px;"
 			id="submit">Empezar</button>
 	</form>
@@ -148,6 +174,7 @@
 		<div class="not-match">Oops !! -1</div>
 	</div>
 	<script>
+		
 window.onload = function () {
 			$("#form1").toggle();
 			$("#game").hide();
@@ -159,7 +186,9 @@ var generar = 0;
 			array.sort(() => Math.random() - 0.5);
 		}
 
-
+		$('.input-range').on('input', function() {
+  $(this).next('.range-value').html(this.value);
+});
 		function generatePets() {
 			//creamos los pets
 			//$('.place').empty();
@@ -214,6 +243,7 @@ var generar = 0;
 					$("#form1").toggle();
 					$("#game").hide();
 					generatePets();
+					links = 0;
 					window.clearTimeout(tm);
 
 				}
@@ -226,11 +256,11 @@ var generar = 0;
 		
 
 		$("#submit").click(function () {
-			var tiempoelegido = $("#segundos").attr('value');
+			var tiempoelegido = $("#tiempox").attr('value');
 			if (tiempoelegido > 1 && tiempoelegido < 61) {
 				$("#form1").hide();
 				$("#game").show();
-				var fiveMinutes = $("#segundos").attr("value"),
+				var fiveMinutes = $("#tiempox").attr("value"),
 					display = document.querySelector('#time');
 				startTimer(fiveMinutes, display);
 			
@@ -282,8 +312,10 @@ var generar = 0;
 							var tiemporeal = parseInt(tiemporestante) - parseInt(actual);
 							//console.log(tiemporestante,actual,tiemporeal);
 							alert('Ganaste! Tardaste ' + tiemporeal + ' segs.');
+							links = 0;
 							$("#form1").toggle();
 							$("#game").hide();
+
 						}
 
 					}
