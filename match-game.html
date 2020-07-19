@@ -307,14 +307,16 @@ var generar = 0;
 
 						//si linkeamos 35 pets, ganamos. Medimos el tiempo que nos llevó
 						if (links == 70) {
-							var tiemporestante = $("#segundos").attr('value');
+							var tiemporestante = $("#tiempox").attr('value');
 							var actual = $("#time").text().substr(3, 2);
 							var tiemporeal = parseInt(tiemporestante) - parseInt(actual);
 							//console.log(tiemporestante,actual,tiemporeal);
 							alert('Ganaste! Tardaste ' + tiemporeal + ' segs.');
 							links = 0;
+
 							$("#form1").toggle();
 							$("#game").hide();
+							generatePets();
 
 						}
 
