@@ -78,14 +78,14 @@
 
 
 			transform: scale(1.12);
-			transition: ease-in-out 0.1s;
+			
 			box-shadow: 1px 1px 8px 1px white;
 		}
 
 		.animateSpan {
 
 			transform: scale(1.12);
-			transition: ease-in-out 0.1s;
+			
 			box-shadow: 1px 1px 8px 1px white;
 		}
 
@@ -269,9 +269,9 @@ var generar = 0;
 		});
 		$(document).ready(function(){ // When the DOM is Ready, then bind the click
 		$(".place").on('click','li',(function () {
-			console.log('clicked');
+			//console.log('clicked');
 			$("li").find("span")
-			console.log(this);
+			//console.log(this);
 			if (count < 2) {
 				count++;
 				//$(this).find("span").show();
@@ -283,7 +283,7 @@ var generar = 0;
 					//console.log(guess1.attr('id'));
 					$(guess1).addClass('animate');
 					$(guess1).find("span").addClass('animateSpan');
-					//console.log($("#l"+guess1.attr("id")).css("background"));
+					//console.log($("#l"+guess1.attr("id")).css("background-color"));
 				}
 
 				// Second guess
@@ -293,18 +293,25 @@ var generar = 0;
 					guess2 = $(this).find("span");
 					$(guess2).addClass('animate');
 					$(guess2).find("span").addClass('animateSpan');
-
-
-					if (guess1.attr("id") != guess2.attr("id") && guess1.text() === guess2.text()) {
+				//	console.log($("#l"+guess2.attr("id")).css("background-color"));
+					var guess1notlinked = $("#l" + guess1.attr("id")).css("background-color")
+					var guess2notlinked = $("#l" + guess2.attr("id")).css("background-color")
+				//	console.log(guess1notlinked,guess2notlinked)
+					if (guess1.attr("id") != guess2.attr("id") && guess1.text() === guess2.text() && guess1notlinked == "rgb(26, 34, 26)" && guess2notlinked == "rgb(26, 34, 26)") {
 						//si ya los linkeamos no tenemos que volver a reconocerlos como linkeados nuevamente
-						if ($("#l" + guess1.attr("id")).css("background-color") != "rgb(51, 51, 51)" && $("#l" + guess2.attr("id")).css("background-color") != "rgb(51,51,51)") { links += 2; }
+						
+						
+							 links += 2; 
 						//aca linkeamos (escondemos los spans)
 						$("#l" + guess1.attr("id")).find("span").hide();
 						$("#l" + guess1.attr("id")).css("background", "#333");
 						$("#l" + guess2.attr("id")).find("span").hide();
 						$("#l" + guess2.attr("id")).css("background", "#333");
 						//setTimeout(function() {
-
+							count = 0;
+						
+						
+						//win condition:
 						//si linkeamos 35 pets, ganamos. Medimos el tiempo que nos llevó
 						if (links == 70) {
 							var tiemporestante = $("#tiempox").attr('value');
@@ -321,16 +328,18 @@ var generar = 0;
 						}
 
 					}
-					// Not Matched 
+					// No hubo link 
 					else {
+						//deberia seleccionar el ultimo que tocamos, dando a entender que no hubo match
 						$(guess1).removeClass('animate');
 						$(guess1).find("span").removeClass('animateSpan');
-						$(guess2).removeClass('animate');
-						$(guess2).find("span").removeClass('animateSpan');
-
+						//$(guess2).removeClass('animate');
+						//$(guess2).find("span").removeClass('animateSpan');
+						guess1 = guess2
+						count = 1
 					}
-					count = 0;
-
+					
+					
 
 				}
 			}
