@@ -3,7 +3,7 @@
 <meta name='viewport' content='width=device-width, initial-scale=0.8, maximum-scale=1.0, user-scalable=0' />
 
 <head>
-	<title>Pet Links Training. By Joker.</title>
+	<title>Pet Links. By Joker.</title>
 	<script data-ad-client="ca-pub-2255634722361079" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 	<style>
@@ -251,12 +251,12 @@ var GameGrid = [] , row1 = [],row2 = [],row3 = [],row4 = [],row5 = [],row6 = [],
 		var count = 0;
 		var score = parseInt($(".score").text());
 		var timerison = 0;
-
+		var tm;
 		function startTimer(duration, display) {
 			if(timerison == 0){
 				
 			var timer = duration, minutes, seconds;
-			var tm = setInterval(function () {
+			 tm = setInterval(function () {
 				
 				minutes = parseInt(timer / 60, 10);
 				seconds = parseInt(timer % 60, 10);
@@ -266,7 +266,7 @@ var GameGrid = [] , row1 = [],row2 = [],row3 = [],row4 = [],row5 = [],row6 = [],
 
 				display.textContent = minutes + ":" + seconds;
 				
-				if (--timer < 0) {
+				if (--timer < 0 ) {
 					timer = duration;
 					$("#form1").toggle();
 					$("#game").hide();
@@ -275,6 +275,7 @@ var GameGrid = [] , row1 = [],row2 = [],row3 = [],row4 = [],row5 = [],row6 = [],
 					window.clearTimeout(tm);
 
 				}
+				
 				
 			}, 1000);}
 			
@@ -348,7 +349,7 @@ var GameGrid = [] , row1 = [],row2 = [],row3 = [],row4 = [],row5 = [],row6 = [],
 							//console.log(tiemporestante,actual,tiemporeal);
 							alert('Ganaste! Tardaste ' + tiemporeal + ' segs.');
 							links = 0;
-
+							window.clearTimeout(tm);
 							$("#form1").toggle();
 							$("#game").hide();
 							generatePets();
