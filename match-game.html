@@ -4,6 +4,7 @@
 
 <head>
 	<title>Pet Links Training. By Joker.</title>
+	<script data-ad-client="ca-pub-2255634722361079" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 	<style>
 		* {
@@ -182,6 +183,7 @@ window.onload = function () {
 
 		};
 var generar = 0;
+var GameGrid = [] , row1 = [],row2 = [],row3 = [],row4 = [],row5 = [],row6 = [],row7 = [],row8 = [],row9 = [],row10 = []
 		function shuffle(array) {
 			array.sort(() => Math.random() - 0.5);
 		}
@@ -213,8 +215,34 @@ var generar = 0;
 				$(".place").append(linew);
 				
 			}
+			var numbers = []
+			row1  .push(x.slice(0,7)  )
+			row2  .push(x.slice(7,14) )
+			row3  .push(x.slice(14,21))
+			row4  .push(x.slice(21,28))
+			row5  .push(x.slice(28,35))
+			row6  .push(x.slice(35,42))
+			row7  .push(x.slice(42,49))
+			row8  .push(x.slice(49,56))
+			row9  .push(x.slice(56,63))
+			row10 .push(x.slice(63,70))
+			GameGrid = [ row1 , row2,row3,row4,row5,row6,row7,row8,row9,row10 ]
+			console.log(x.slice(0,7) )
+			console.log(x.slice(7,14))
+			console.log(x.slice(14,21))
+			console.log(x.slice(21,28))
+			console.log(x.slice(28,35))
+			console.log(x.slice(35,42))
+			console.log(x.slice(42,49))
+			console.log(x.slice(49,56))
+			console.log(x.slice(56,63))
+			console.log(x.slice(63,70))
 
+			
+			
+			
 		}
+			
 		generatePets();
 		//console.log(x);
 		var links = 0
